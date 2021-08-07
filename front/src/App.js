@@ -10,7 +10,9 @@ function App() {
         <Grid container alignItems="center" style={{ height: "100%" }}>
           <Grid item xs={12} md={12} sm={11}>
             <Paper elevation={4} style={{ margin: 32 }}>
-              <Grid container alignItems="center" justifyContent="center">
+              <Grid container alignItems="center" 
+              justifyContent="center"
+              >
                 <Grid
                   item
                   xs={12}
@@ -23,7 +25,9 @@ function App() {
                     alt="jiji"
                   />
                 </Grid>
-                <Grid item xs={12} md={6} sm={6} alignContent="center">
+                <Grid item xs={12} md={6} sm={6} 
+                 alignContent="center"
+                >
                   <SignUp />
                 </Grid>
               </Grid>
