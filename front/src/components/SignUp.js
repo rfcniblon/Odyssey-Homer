@@ -1,21 +1,22 @@
 import React, { Component } from "react";
+const SERVER_ADDRESS = process.env.REACT_APP_SERVER_ADDRESS;
 
 class SignUp extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: "",
-      lastname: "",
-      email: "",
-      password: "",
+      email: "mon@email.com",
+      password: "monPassw0rd",
+      name: "James",
+      lastname: "Bond",
       passwordBis: "",
+      flash:'',
     };
     this.onChange = this.onChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   onChange(e) {
-    this.afficheJson();
     switch (e.target.name) {
       case "name":
         this.setState({ name: e.target.value });
@@ -37,31 +38,27 @@ class SignUp extends Component {
     }
   }
 
-  //check if password and passwordbis are exactly the same
-  checkPassword = (state) => {
-    if (this.state.password === this.state.passwordBis) {
-      this.afficheConsole();
-    } else {
-      console.log("password not ok");
-    }
-  };
-
   //submit the form
   handleSubmit(e) {
-    e.preventDefault();
-    this.checkPassword();
-  }
+    if (this.state.password !== this.state.passwordBis) {
+      console.log("Password non identique");
+    } else {
+      console.log(this.state);
+      e.preventDefault();
 
-  //display the json in the console
-  afficheConsole() {
-    const afficher = JSON.stringify(this.state);
-    return console.log(afficher);
-  }
-
-  //display the json in the element H1
-  afficheJson() {
-    const affiche = JSON.stringify(this.state);
-    return affiche;
+      fetch(SERVER_ADDRESS +'/auth/signup', {
+        method: "POST",
+        headers: new Headers({
+          "Content-Type": "application/json",
+        }),
+        body: JSON.stringify(this.state),
+      })
+        .then((res) => res.json())
+        .then(
+          (res) => this.setState({ flash: res.flash }),
+          (err) => this.setState({ flash: err.flash })
+        );
+    }
   }
 
   render() {
@@ -69,7 +66,7 @@ class SignUp extends Component {
       <>
         <div className="container">
           <div className="container-signup">
-            <h1>{this.afficheJson()}</h1>
+            <h1>{JSON.stringify(this.state)}</h1>
             <form className="row g-3" onSubmit={this.handleSubmit}>
               <div className="col-md-6">
                 <label htmlFor="inputName" className="form-label">
