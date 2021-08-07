@@ -1,16 +1,17 @@
 import React, { Component } from "react";
+import { TextField, Button } from "@material-ui/core";
 const SERVER_ADDRESS = process.env.REACT_APP_SERVER_ADDRESS;
 
 class SignUp extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: "mon@email.com",
-      password: "monPassw0rd",
-      name: "James",
-      lastname: "Bond",
+      email: "",
+      password: "",
+      name: "",
+      lastname: "",
       passwordBis: "",
-      flash:'',
+      flash: "",
     };
     this.onChange = this.onChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -46,7 +47,7 @@ class SignUp extends Component {
       console.log(this.state);
       e.preventDefault();
 
-      fetch(SERVER_ADDRESS +'/auth/signup', {
+      fetch(SERVER_ADDRESS + "/auth/signup", {
         method: "POST",
         headers: new Headers({
           "Content-Type": "application/json",
@@ -64,81 +65,64 @@ class SignUp extends Component {
   render() {
     return (
       <>
-        <div className="container">
-          <div className="container-signup">
-            <h1>{JSON.stringify(this.state)}</h1>
-            <form className="row g-3" onSubmit={this.handleSubmit}>
-              <div className="col-md-6">
-                <label htmlFor="inputName" className="form-label">
-                  Name
-                </label>
-                <input
-                  type="text"
-                  className="form-control"
-                  id="inputName"
-                  name="name"
-                  placeholder="Name"
-                  onChange={this.onChange}
-                />
-              </div>
-              <div className="col-md-6">
-                <label htmlFor="inputLastName" className="form-label">
-                  LastName
-                </label>
-                <input
-                  type="text"
-                  className="form-control"
-                  id="inputLastName"
-                  name="lastname"
-                  placeholder="LastName"
-                  onChange={this.onChange}
-                />
-              </div>
-              <div className="col-md-6">
-                <label htmlFor="inputEmail" className="form-label">
-                  Email
-                </label>
-                <input
-                  type="email"
-                  className="form-control"
-                  id="inputEmail"
-                  name="email"
-                  onChange={this.onChange}
-                />
-              </div>
-              <div className="col-md-6">
-                <label htmlFor="inputPassword" className="form-label">
-                  Password
-                </label>
-                <input
-                  type="password"
-                  className="form-control"
-                  id="inputPassword"
-                  name="password"
-                  onChange={this.onChange}
-                />
-              </div>
-              <div className="col-md-6">
-                <label htmlFor="inputPasswordBis" className="form-label">
-                  Confirm Password
-                </label>
-                <input
-                  type="password"
-                  className="form-control"
-                  id="inputPasswordBis"
-                  name="passwordbis"
-                  onChange={this.onChange}
-                />
-              </div>
-
-              <div className="col-12">
-                <button type="submit" className="btn btn-primary">
-                  S'enregistrer
-                </button>
-              </div>
-            </form>
+        <h1>Sing up!</h1> 
+        <form onSubmit={this.handleSubmit}>
+        <label>Name</label>
+          <TextField
+            type="text"
+            label="Name"
+            id="inputName"
+            name="name"
+            title="name"
+            onChange={this.onChange}
+          />
+           <label>LastName</label>
+          <TextField
+            type="text"
+            title="lastname"
+            label="lastname"
+            id="inputLastName"
+            name="lastname"
+            onChange={this.onChange}
+          />
+           <label>Email</label>
+          <TextField
+            type="email"
+            label="email"
+            title="email"
+            id="inputEmail"
+            name="email"
+            onChange={this.onChange}
+          />
+           <label>Password</label>
+          <TextField
+            type="password"
+            label="password"
+            id="inputPassword"
+            name="password"
+            title="password"
+            onChange={this.onChange}
+          />
+           <label>Confirm Password</label>
+          <TextField
+            type="password"
+            title="confirm_password"
+            label="confirm password"
+            id="inputPasswordBis"
+            name="passwordbis"
+            onChange={this.onChange}
+          />
+          <div className="button">
+            <Button
+              type="submit"
+              title="s'enregistrer"
+              variant="outlined"
+              color="primary"
+            >
+              S'enregistrer
+            </Button>
           </div>
-        </div>
+        </form>
       </>
     );
   }
