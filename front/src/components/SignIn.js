@@ -5,17 +5,16 @@ import Snackbar from "@material-ui/core/Snackbar";
 
 const SERVER_ADDRESS = process.env.REACT_APP_SERVER_ADDRESS;
 
-class SignUp extends Component {
+class SignIn extends Component {
   constructor(props) {
     super(props);
     this.state = {
       email: "",
       password: "",
-      name: "",
-      lastname: "",
-      passwordBis: "",
       flash: "",
       open: false,
+      redirect: false,
+      redi:false,
     };
     this.onChange = this.onChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -27,40 +26,28 @@ class SignUp extends Component {
 
   onChange(e) {
     switch (e.target.name) {
-      case "name":
-        this.setState({ name: e.target.value });
-        break;
-      case "lastname":
-        this.setState({ lastname: e.target.value });
+      case "email":
+        this.setState({ email: e.target.value });
         break;
       case "password":
         this.setState({ password: e.target.value });
-        break;
-      case "passwordbis":
-        this.setState({ passwordBis: e.target.value });
-        break;
-      case "email":
-        this.setState({ email: e.target.value });
         break;
       default:
         break;
     }
   }
 
-  handleSubmit(event) {
-    event.preventDefault();
-    if (this.state.password !== this.state.passwordBis) {
-      // console.log("different");
-      this.setState({ open: true });
-      this.setState({ flash: "password not identique" });
-    } else if (this.state.password === this.state.passwordBis) {
-      this.handleSubmitBis(event);
-    }
+  RedirectAfterLogin(){
+    const redi = this.state.redi;
+ if (!redi){
+    window.location.href = '/profile'
+ }
   }
 
   //submit the form
-  handleSubmitBis(event) {
-    fetch(SERVER_ADDRESS + "/auth/signup", {
+  handleSubmit(event) {
+    event.preventDefault();
+    fetch(SERVER_ADDRESS + "/auth/signin", {
       method: "POST",
       headers: new Headers({
         "Content-Type": "application/json",
@@ -68,41 +55,16 @@ class SignUp extends Component {
       body: JSON.stringify(this.state),
     })
       .then((res) => res.json())
-      .then(
-        (res) => this.setState({ flash: res.flash, open: true }),
-        (err) => this.setState({ flash: err.flash, open: true })
-      );
+      .then((res) => this.setState({ flash: res.flash, open: true }, this.RedirectAfterLogin()),
+        (err) => this.setState({ flash: err.flash, open: true }),
+      ); 
   }
 
   render() {
-
-  //   const { redirect } = this.state;
-  //   if (redirect) {
-  //    return <Redirect to='/'/>;
-  //  }
-
     return (
       <>
-        <h1>Sing up!</h1>
+        <h1>Sing in!</h1>
         <form onSubmit={this.handleSubmit}>
-          <label>Name</label>
-          <TextField
-            type="text"
-            label="Name"
-            id="inputName"
-            name="name"
-            title="name"
-            onChange={this.onChange}
-          />
-          <label>LastName</label>
-          <TextField
-            type="text"
-            title="lastname"
-            label="lastname"
-            id="inputLastName"
-            name="lastname"
-            onChange={this.onChange}
-          />
           <label>Email</label>
           <TextField
             type="email"
@@ -119,15 +81,6 @@ class SignUp extends Component {
             id="inputPassword"
             name="password"
             title="password"
-            onChange={this.onChange}
-          />
-          <label>Confirm Password</label>
-          <TextField
-            type="password"
-            title="confirm_password"
-            label="confirm password"
-            id="inputPasswordBis"
-            name="passwordbis"
             onChange={this.onChange}
           />
           <div className="button">
@@ -153,18 +106,10 @@ class SignUp extends Component {
             />
           </div>
         </form>
-
-        <ul>
-          <li>
-            <Link to="/signin">Sign In</Link>
-          </li>
-          <li>
-            <Link to="/profile">Profile</Link>
-          </li>
-        </ul>
+        <Link to="/signup">Sign Up</Link>
       </>
     );
   }
 }
 
-export default SignUp;
+export default SignIn;
