@@ -3,8 +3,6 @@ import { Link } from "react-router-dom";
 import { TextField, Button } from "@material-ui/core";
 import Snackbar from "@material-ui/core/Snackbar";
 
-const SERVER_ADDRESS = process.env.REACT_APP_SERVER_ADDRESS;
-
 class SignUp extends Component {
   constructor(props) {
     super(props);
@@ -16,7 +14,9 @@ class SignUp extends Component {
       passwordBis: "",
       flash: "",
       open: false,
+      redi:'',
     };
+
     this.onChange = this.onChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
@@ -50,7 +50,6 @@ class SignUp extends Component {
   handleSubmit(event) {
     event.preventDefault();
     if (this.state.password !== this.state.passwordBis) {
-      // console.log("different");
       this.setState({ open: true });
       this.setState({ flash: "password not identique" });
     } else if (this.state.password === this.state.passwordBis) {
@@ -58,9 +57,16 @@ class SignUp extends Component {
     }
   }
 
+  RedirectAfterSignUp(){
+    const redi = this.state.redi;
+ if (!redi){
+    window.location.href = '/'
+ }
+  }
+
   //submit the form
   handleSubmitBis(event) {
-    fetch(SERVER_ADDRESS + "/auth/signup", {
+    fetch("/auth/signup", {
       method: "POST",
       headers: new Headers({
         "Content-Type": "application/json",
@@ -69,7 +75,7 @@ class SignUp extends Component {
     })
       .then((res) => res.json())
       .then(
-        (res) => this.setState({ flash: res.flash, open: true }),
+        (res) => this.setState({ flash: res.flash, open: true}, this.RedirectAfterSignUp()),
         (err) => this.setState({ flash: err.flash, open: true })
       );
   }

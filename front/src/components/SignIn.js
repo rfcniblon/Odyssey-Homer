@@ -3,8 +3,6 @@ import { Link } from "react-router-dom";
 import { TextField, Button } from "@material-ui/core";
 import Snackbar from "@material-ui/core/Snackbar";
 
-const SERVER_ADDRESS = process.env.REACT_APP_SERVER_ADDRESS;
-
 class SignIn extends Component {
   constructor(props) {
     super(props);
@@ -14,7 +12,7 @@ class SignIn extends Component {
       flash: "",
       open: false,
       redirect: false,
-      redi:false,
+      redi:'',
     };
     this.onChange = this.onChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -41,13 +39,13 @@ class SignIn extends Component {
     const redi = this.state.redi;
  if (!redi){
     window.location.href = '/profile'
- }
+  }
   }
 
   //submit the form
   handleSubmit(event) {
     event.preventDefault();
-    fetch(SERVER_ADDRESS + "/auth/signin", {
+    fetch("/auth/signin", {
       method: "POST",
       headers: new Headers({
         "Content-Type": "application/json",
