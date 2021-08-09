@@ -14,7 +14,7 @@ class SignUp extends Component {
       passwordBis: "",
       flash: "",
       open: false,
-      redi:'',
+      // redi:'',
     };
 
     this.onChange = this.onChange.bind(this);
@@ -57,12 +57,12 @@ class SignUp extends Component {
     }
   }
 
-  RedirectAfterSignUp(){
-    const redi = this.state.redi;
- if (!redi){
-    window.location.href = '/'
- }
-  }
+//   RedirectAfterSignUp(){
+//     const redi = this.state.redi;
+//  if (!redi){
+//     window.location.href = '/'
+//  }
+//   }
 
   //submit the form
   handleSubmitBis(event) {
@@ -75,7 +75,7 @@ class SignUp extends Component {
     })
       .then((res) => res.json())
       .then(
-        (res) => this.setState({ flash: res.flash, open: true}, this.RedirectAfterSignUp()),
+        (res) => this.setState({ flash: res.flash, open: true}),
         (err) => this.setState({ flash: err.flash, open: true })
       );
   }
